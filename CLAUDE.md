@@ -20,9 +20,9 @@ AI-агент поверх личного финансового трекера.
 4. Chat UI на фронте со стримингом
 5. MCP-сервер как обёртка над теми же tools (последний шаг, переиспользует бизнес-логику)
 
-**Статус: шаг 1 завершён** — Next.js 16 (App Router, src/, TS, без Tailwind) + Postgres в Docker (`docker-compose.yml`) + Drizzle ORM. Схема (`src/db/schema/`): `categories`, `transactions`, `budgets`. Миграции сгенерированы и применены (`pnpm db:generate` / `db:migrate`), сид-скрипт (`pnpm db:seed`) работает. Next.js API routes (шаг 2) ещё не написаны.
+**Статус: шаг 2 завершён** — Next.js 16 (App Router, src/, TS, без Tailwind) + Postgres в Docker (`docker-compose.yml`) + Drizzle ORM (шаг 1). CRUD API routes для `categories`, `transactions`, `budgets` (шаг 2): `src/app/api/{categories,transactions,budgets}/route.ts` (GET список + фильтры, POST) и `[id]/route.ts` (GET/PATCH/DELETE). Валидация через Zod, единый формат ошибок `{ error }` через `src/lib/api-error.ts` (`ApiError` для ожидаемых 4xx, generic 500 для остального). Все роуты вручную протестированы curl'ом (фильтры, 400/404/409-ветки). Agent layer (шаг 3, Claude API) ещё не начат.
 
-Важно: Next.js 16 — API/конвенции могут отличаться от того, что в моих (агента) тренировочных данных. Доки лежат прямо в репо: `node_modules/next/dist/docs/`. Перед написанием route handlers на шаге 2 сверяться с `node_modules/next/dist/docs/01-app/01-getting-started/15-route-handlers.md` и соседними файлами про route segment config / caching.
+Важно: Next.js 16 — API/конвенции могут отличаться от того, что в моих (агента) тренировочных данных (например, `params` в динамических route handlers — Promise, а не объект, начиная с v15). Доки лежат прямо в репо: `node_modules/next/dist/docs/`. Сверяться с ними при написании нового Next.js-кода, а не полагаться на память.
 
 ## Конвенции
 - TypeScript по умолчанию
