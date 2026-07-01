@@ -49,7 +49,7 @@ async function scenarioBudgetStatus() {
 
   const client = createMockClient(script);
   const reply = await runAgent(
-    [{ role: "user", content: "Сколько я потратил на еду в июне и укладываюсь ли в бюджет?" }],
+    [{ role: "user", content: "How much did I spend on food in June, and am I within budget?" }],
     client,
   );
   console.log(reply);
