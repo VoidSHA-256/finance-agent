@@ -11,10 +11,13 @@
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "db:seed": "tsx src/db/seed.ts",
-    "agent:mock": "tsx src/lib/agent/mock-run.ts"
+    "agent:mock": "tsx src/lib/agent/mock-run.ts",
+    "mcp": "tsx src/mcp/server.ts",
+    "mcp:test": "tsx src/mcp/test-client.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.109.0",
+    "@modelcontextprotocol/sdk": "^1.29.0",
     "drizzle-orm": "^0.45.2",
     "next": "16.2.9",
     "postgres": "^3.4.9",

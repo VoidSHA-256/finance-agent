@@ -4,18 +4,18 @@ import { createTransaction, createTransactionSchema, categorize, listTransaction
 import { getBudgetStatus, setBudgetRule, setBudgetRuleSchema } from "@/lib/budgets";
 import { ApiError } from "@/lib/api-error";
 
-const getTransactionsInput = z.object({
+export const getTransactionsInput = z.object({
   categoryId: z.string().uuid().optional(),
   from: z.string().optional(),
   to: z.string().optional(),
 });
 
-const categorizeInput = z.object({
+export const categorizeInput = z.object({
   transactionId: z.string().uuid(),
   categoryId: z.string().uuid(),
 });
 
-const getBudgetStatusInput = z.object({
+export const getBudgetStatusInput = z.object({
   period: z.string().optional(),
 });
 
