@@ -1,16 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
-import { db } from "@/db";
-import { categories } from "@/db/schema";
+import { createCategory, createCategorySchema, listCategories } from "@/lib/categories";
 import { toErrorResponse } from "@/lib/api-error";
-
-const createCategorySchema = z.object({
-  name: z.string().min(1),
-});
 
 export async function GET() {
   try {
-    const rows = await db.select().from(categories);
+    const rows = await listCategories();
     return NextResponse.json(rows);
   } catch (err) {
     return toErrorResponse(err);
@@ -20,7 +14,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = createCategorySchema.parse(await request.json());
-    const [category] = await db.insert(categories).values(body).returning();
+    const category = await createCategory(body);
     return NextResponse.json(category, { status: 201 });
   } catch (err) {
     return toErrorResponse(err);
