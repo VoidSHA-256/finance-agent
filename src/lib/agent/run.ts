@@ -2,7 +2,13 @@ import Anthropic from "@anthropic-ai/sdk";
 import { tools } from "@/lib/agent/tools";
 import { executeTool } from "@/lib/agent/executor";
 
-const client = new Anthropic();
+export interface AgentClient {
+  messages: {
+    create(params: Anthropic.MessageCreateParamsNonStreaming): Promise<Anthropic.Message>;
+  };
+}
+
+const defaultClient: AgentClient = new Anthropic();
 
 const MODEL = "claude-haiku-4-5";
 
@@ -17,7 +23,7 @@ export interface AgentTurn {
   content: string;
 }
 
-export async function runAgent(history: AgentTurn[]): Promise<string> {
+export async function runAgent(history: AgentTurn[], client: AgentClient = defaultClient): Promise<string> {
   const messages: Anthropic.MessageParam[] = history.map((turn) => ({
     role: turn.role,
     content: turn.content,
